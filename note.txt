@@ -1,0 +1,15 @@
+Navigation / meta-commands
+
+\l — list all databases on this Postgres server
+\c dbname — connect to a different database
+\dt — list tables in the current database (this is your "did my CREATE TABLE actually work" check)
+\d tablename — describe a table's columns, types, and constraints (your best friend for checking a schema matches what you intended)
+\q — quit psql
+
+Everyday SQL you'll run constantly while testing
+
+SELECT * FROM matches; — see everything in a table
+SELECT * FROM participants WHERE puuid = '...'; — filtered lookup
+DELETE FROM participants; — wipe a table's rows without dropping it (useful while testing your insert logic repeatedly)
+DROP TABLE participants; — delete the table entirely, if you need to redo the schema from scratch
+SELECT COUNT(*) FROM matches; — quick sanity check on how much data you've actually loaded
