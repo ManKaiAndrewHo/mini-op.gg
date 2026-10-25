@@ -43,6 +43,15 @@ def init_db():
             gold_earned INTEGER,
             total_minions_killed INTEGER,
             vision_score INTEGER,
+            item0 INTEGER, item1 INTEGER, item2 INTEGER, item3 INTEGER, 
+            item4 INTEGER, item5 INTEGER, item6 INTEGER,
+            summoner1_id INTEGER,
+            summoner2_id INTEGER,
+            perks JSONB,
+            team_id INTEGER,
+            primary_style INTEGER,
+            sub_style INTEGER,
+            keystone INTEGER,
             UNIQUE (match_id, puuid)
         )
     """)
@@ -82,7 +91,6 @@ def save_match(conn, match_data: dict):
     cursor = conn.cursor()
     info = match_data["info"]
     match_id = match_data["metadata"]["matchId"]
-    primary_style, sub_style, keystone = extract_runes(p["perks"])
 
     cursor.execute("""
         INSERT INTO matches (match_id, game_duration, game_mode, game_creation)
@@ -91,6 +99,8 @@ def save_match(conn, match_data: dict):
     """, (match_id, info["gameDuration"], info["gameMode"], info["gameCreation"]))
 
     for p in info["participants"]:
+        primary_style, sub_style, keystone = extract_runes(p["perks"])
+        
         cursor.execute("""
             INSERT INTO summoners (puuid, game_name, tag_line)
             VALUES (%s, %s, %s)
